@@ -9,7 +9,7 @@ export class Client<T = any> {
 	public constructor(private jsonDescriptor: any, public options?: Partial<ModuleOptions>) {
 		this.options = { ...new ModuleOptions(), ...options };
 
-		this.ghost = GhostProxy.create(this.customHandler);
+		this.ghost = GhostProxy.create(this.customHandler.bind(this));
 	}
 
 	private async customHandler(path, ...args) {

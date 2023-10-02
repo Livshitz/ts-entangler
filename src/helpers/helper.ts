@@ -6,13 +6,15 @@ import fs from 'fs';
 class Helper {
 	public getModuleDescriptor(filePath: string) {
 		let moduleDescriptorJson;
-		if (libx.node.args.refresh || !fs.existsSync(filePath)) {
+		const tmpFilePath = 'module-reflector.json';
+		if (libx.node.args.refresh || !fs.existsSync(`.tmp/${tmpFilePath}`)) {
 			libx.log.v('refresh!')
 			const reflector = new Reflector(filePath);
 			moduleDescriptorJson = reflector.generate();
-			libx.node.dump('module-reflector.json', moduleDescriptorJson);
+			libx.node.mkdirRecursiveSync('.tmp');
+			libx.node.dump(tmpFilePath, moduleDescriptorJson);
 		} else {
-			moduleDescriptorJson = libx.node.readJson('.tmp/module-reflector.json');
+			moduleDescriptorJson = libx.node.readJson(`.tmp/${tmpFilePath}`);
 		}
 
 		return moduleDescriptorJson;
