@@ -1,3 +1,4 @@
+import 'isomorphic-fetch';
 import { Client } from "../src/Client";
 import { Server } from "../src/Server";
 import { helper } from "../src/helpers/helper";
