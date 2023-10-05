@@ -37,11 +37,11 @@ export class ModuleRouter<T> {
 	}
 
 	private async requestHandler({ request, moduleName, path, method, params, httpMethod }: RequestParams) {
-		console.log('Server:requestHandler: ', moduleName, path, method, {
-			body: request.content,
-			// headers: request.headers,
-			method: request.method
-		})
+		// console.log('Server:requestHandler: ', moduleName, path, method, {
+		// 	body: request.content,
+		// 	// headers: request.headers,
+		// 	method: request.method
+		// })
 		const m = this.moduleInstance;
 
 		const p = {};
