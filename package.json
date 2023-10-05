@@ -1,13 +1,15 @@
 {
     "name": "ts-entangler",
     "version": "0.1.0",
-    "main": "index.js",
+    "main": "build/",
     "license": "MIT",
     "author": "",
     "scripts": {
         "format": "prettier --config .prettierrc 'src/**/*.ts' 'tests/**/*.ts' --write",
         "build": "tsc",
         "watch": "tsc -w",
+        "server-test": "node build/tests/serverTest.js",
+        "client-test": "node build/tests/clientTest.js",
         "main": "node build/Main.js",
         "test": "jest",
         "test:debug": "node --inspect ./node_modules/jest/bin/jest.js --runInBand --colors --verbose",

@@ -1,4 +1,4 @@
-import { libx } from "libx.js/build/bundles/node.essentials";
+// import { libx } from "libx.js/build/bundles/essentials";
 
 interface IObject {
 	id?: string;
@@ -26,7 +26,7 @@ export class Module {
 
 	public async create(newObj: IObject): Promise<IObject> {
 		console.log('create', newObj);
-		newObj.id = libx.newGuid();
+		newObj.id = '123123123123123';
 		return newObj;
 	}
 

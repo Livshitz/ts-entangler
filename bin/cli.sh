@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "ts-entangler"
+
 # Get dir of executable
 dir=$( dirname $(realpath "$0") )/../
 

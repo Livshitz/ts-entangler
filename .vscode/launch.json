@@ -10,7 +10,12 @@
             "request": "attach",
             "port": 9229,
             "smartStep": true,
-            "skipFiles": ["${workspaceFolder}/node_modules/**/*.js", "${workspaceFolder}/lib/**/*.js", "<node_internals>/**/*.js"]
+            "skipFiles": [
+                "${workspaceFolder}/node_modules/**/*.js",
+                "${workspaceFolder}/lib/**/*.js",
+                "<node_internals>/**",
+                "node_modules/**/*.js"
+            ]
         },
         {
             "type": "node",

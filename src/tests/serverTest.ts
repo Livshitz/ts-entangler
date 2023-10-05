@@ -3,15 +3,17 @@ import { getExpress } from "../helpers/getExpress";
 import { error, json, IRequest, Router, withParams, withContent, RouterType, Route, createCors } from 'itty-router';
 import { Module } from "./Module";
 import { libx } from "libx.js/build/bundles/node.essentials";
-import { Reflector } from "ts-reflector";
 import { helper } from "../helpers/helper";
-import { Server } from "../Server";
+import { Server } from "../LocalServer";
+import { fileReflector } from "../FileReflector";
+import { ModuleRouter } from "../ModuleRouter";
 
-const moduleDescriptorJson = helper.getModuleDescriptor('src/tests/Module.ts')
+const moduleDescriptorJson = fileReflector.getModuleDescriptor('src/tests/Module.ts')
 
-const server = new Server(moduleDescriptorJson, {});
+const moduleRouter = new ModuleRouter(new Module(123), moduleDescriptorJson, { customRoot: 'mod' })
+const server = new Server(moduleRouter.router, {});
 
-server.router.all('/x', (request) => json({
+moduleRouter.router.all('/x', (request) => json({
 	text: 'hello',
 	echo: request.body,
 })).all('*', () => error(404));

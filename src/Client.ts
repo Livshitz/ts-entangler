@@ -12,10 +12,27 @@ export class Client<T = any> {
 		this.ghost = GhostProxy.create(this.customHandler.bind(this));
 	}
 
+	public static async fromUrl<T = any>(moduleDescriptorUrl: string, options?: Partial<ModuleOptions>) {
+		const jsonDescriptor = await network.httpGetJson(moduleDescriptorUrl);
+		if (options.urlPrefix == null) {
+			const url = new URL(moduleDescriptorUrl);
+			const prefix = `${url.protocol}//${url.host}/`;
+			options.urlPrefix = prefix;
+		}
+		if (options.customRoot == null) {
+			const match = moduleDescriptorUrl.match(/\/([^/]+)\/definition$/);
+			options.customRoot = match[1];
+		}
+		const ret = new Client<T>(jsonDescriptor, options);
+		return ret;
+	}
+
 	private async customHandler(path, ...args) {
 		try {
 			const pointer = this.jsonDescriptor;
 			const entry = Object.keys(pointer)[0]?.toLowerCase();
+			const root = this?.options?.customRoot ?? entry;
+
 			for (let p of path.split('/')) {
 				pointer[p];
 			}
@@ -33,7 +50,7 @@ export class Client<T = any> {
 				}
 			}
 
-			const url = `${this.options.urlPrefix}/${entry}/${path}/${params.join('/')}`;
+			const url = `${this.options.urlPrefix}/${root}/${path}/${params.join('/')}`;
 			const httpMethod = !hasNonPrimitiveValue ? 'get' : 'post';
 			// libx.log.d(`Client:customHandler: Custom handler called instead of ${path}() with arguments:`, args, httpMethod, url);
 
@@ -58,5 +75,6 @@ export class Client<T = any> {
 }
 
 export class ModuleOptions {
+	customRoot: string;
 	urlPrefix: string;
 }
